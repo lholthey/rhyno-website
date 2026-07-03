@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Termin buchen — Linus Rhyno Holthey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:      #2563EB;
+      --blue-dark: #1D4ED8;
+      --blue-pale: #EFF6FF;
+      --blue-light:#DBEAFE;
+      --green:     #10B981;
+      --slate-900: #0F172A;
+      --slate-700: #334155;
+      --slate-500: #64748B;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--slate-100); color:var(--slate-900); min-height:100vh; }
+
+    /* NAV */
+    nav { background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--slate-200); padding:0 24px; position:sticky; top:0; z-index:50; }
+    .nav-inner { max-width:740px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:60px; }
+    .nav-logo { font-weight:800; color:var(--slate-900); text-decoration:none; font-size:1rem; }
+    .nav-logo span { color:var(--blue); }
+    .nav-back { color:var(--blue); text-decoration:none; font-weight:500; font-size:0.86rem; }
+
+    /* WRAPPER */
+    .wrap { max-width:680px; margin:0 auto; padding:32px 20px 100px; }
+
+    /* PROGRESS */
+    .prog-outer { display:flex; align-items:center; margin-bottom:10px; }
+    .pdot { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.8rem; flex-shrink:0; transition:all 0.3s; }
+    .pdot.active  { background:var(--blue);  color:white; box-shadow:0 0 0 4px var(--blue-light); }
+    .pdot.done    { background:var(--green); color:white; }
+    .pdot.pending { background:var(--slate-200); color:var(--slate-500); }
+    .pline { flex:1; height:2px; background:var(--slate-200); transition:background 0.3s; }
+    .pline.done { background:var(--green); }
+    .prog-lbl { font-size:0.78rem; color:var(--slate-500); font-weight:500; margin-bottom:24px; }
+
+    /* STEP */
+    .step { background:white; border-radius:20px; padding:34px; display:none; animation:up 0.28s ease; }
+    .step.on { display:block; }
+    @keyframes up { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .step h2 { font-size:1.5rem; font-weight:800; margin-bottom:5px; }
+    .sub { color:var(--slate-500); font-size:0.88rem; margin-bottom:26px; line-height:1.6; }
+
+    /* OPTION GRID */
+    .og { display:grid; gap:11px; margin-bottom:22px; }
+    .g2 { grid-template-columns:1fr 1fr; }
+    .g3 { grid-template-columns:1fr 1fr 1fr; }
+    .g4 { grid-template-columns:repeat(4,1fr); }
+    .oc {
+      border:2px solid var(--slate-200); border-radius:12px;
+      padding:15px 10px; text-align:center; cursor:pointer;
+      transition:all 0.18s; user-select:none; background:white;
+    }
+    .oc:hover  { border-color:var(--blue); background:var(--blue-pale); }
+    .oc.sel    { border-color:var(--blue); background:var(--blue-pale); }
+    .oi  { font-size:1.6rem; margin-bottom:5px; }
+    .ol  { font-weight:700; font-size:0.86rem; }
+    .od  { font-size:0.72rem; color:var(--slate-500); margin-top:2px; }
+    .oc.big { padding:24px 14px; }
+    .oc.big .oi { font-size:2.2rem; }
+    .oc.big .ol { font-size:1rem; }
+
+    /* CHIPS (multi-select, optional) */
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+    .chip {
+      padding:7px 15px; border:2px solid var(--slate-200); border-radius:100px;
+      cursor:pointer; font-size:0.82rem; font-weight:600; transition:all 0.18s;
+      user-select:none; background:white;
+    }
+    .chip:hover { border-color:var(--blue); }
+    .chip.sel   { border-color:var(--blue); background:var(--blue-pale); color:var(--blue); }
+
+    /* PLAYERS */
+    .players { display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
+    .prow { display:flex; gap:8px; }
+    .prow input { flex:1; padding:9px 12px; border:2px solid var(--slate-200); border-radius:8px; font-family:'Inter',sans-serif; font-size:0.88rem; }
+    .prow input:focus { outline:none; border-color:var(--blue); }
+    .prm { padding:8px 11px; background:#FEE2E2; color:#DC2626; border:none; border-radius:8px; cursor:pointer; font-size:0.9rem; }
+    .padd {
+      padding:9px 14px; background:var(--blue-pale); color:var(--blue);
+      border:2px dashed var(--blue-light); border-radius:8px; cursor:pointer;
+      font-weight:600; font-size:0.82rem; width:100%; transition:all 0.18s; font-family:'Inter',sans-serif;
+    }
+    .padd:hover { background:var(--blue-light); }
+
+    /* FORM */
+    .fr { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
+    .fr label { font-weight:600; font-size:0.81rem; color:var(--slate-700); }
+    .fr input,.fr select,.fr textarea {
+      padding:10px 13px; border:2px solid var(--slate-200); border-radius:9px;
+      font-family:'Inter',sans-serif; font-size:0.9rem; transition:border-color 0.2s; background:white;
+    }
+    .fr input:focus,.fr select:focus,.fr textarea:focus { outline:none; border-color:var(--blue); }
+    .fr textarea { resize:vertical; min-height:80px; }
+    .fr2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .fl { font-weight:600; font-size:0.81rem; color:var(--slate-700); margin-bottom:8px; display:block; }
+
+    /* SLOTS */
+    .slots { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+    .slot { padding:7px 14px; border:2px solid var(--slate-200); border-radius:8px; cursor:pointer; font-size:0.83rem; font-weight:600; transition:all 0.18s; }
+    .slot:hover { border-color:var(--blue); }
+    .slot.sel   { border-color:var(--blue); background:var(--blue-pale); color:var(--blue); }
+
+    /* INFO / WARN */
+    .ibox { background:var(--blue-pale); border-left:4px solid var(--blue); border-radius:0 9px 9px 0; padding:12px 14px; font-size:0.82rem; color:var(--slate-700); line-height:1.6; margin-bottom:18px; }
+    .wbox { background:#FFF7ED; border-left:4px solid #F59E0B; border-radius:0 9px 9px 0; padding:12px 14px; font-size:0.82rem; color:#92400E; line-height:1.6; margin-bottom:18px; }
+
+    /* SUMMARY */
+    .sumb { background:var(--slate-100); border-radius:11px; padding:16px; margin-bottom:20px; }
+    .sumr { display:flex; justify-content:space-between; padding:5px 0; font-size:0.84rem; }
+    .sumr:not(:last-child) { border-bottom:1px solid var(--slate-200); }
+    .sk { color:var(--slate-500); } .sv { font-weight:600; }
+
+    /* DIVIDER */
+    .div { height:1px; background:var(--slate-200); margin:18px 0; }
+
+    /* BUTTONS */
+    .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:26px; }
+    .bbk { background:none; border:2px solid var(--slate-200); color:var(--slate-700); padding:11px 20px; border-radius:9px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; font-size:0.88rem; transition:all 0.2s; }
+    .bbk:hover { border-color:var(--slate-500); }
+    .bnx { background:var(--blue); color:white; border:none; padding:11px 26px; border-radius:9px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; font-size:0.88rem; transition:all 0.2s; }
+    .bnx:hover:not(:disabled) { background:var(--blue-dark); transform:translateY(-1px); }
+    .bnx:disabled { background:var(--slate-200); color:var(--slate-500); cursor:not-allowed; }
+
+    /* SUCCESS */
+    .sc { text-align:center; padding:14px 0; }
+    .sci { font-size:3.8rem; margin-bottom:16px; }
+    .sc h2 { font-size:1.5rem; font-weight:800; margin-bottom:10px; }
+    .sc p  { color:var(--slate-500); margin-bottom:22px; line-height:1.7; }
+    .bgc { display:inline-block; background:white; color:var(--slate-900); border:2px solid var(--slate-200); padding:11px 20px; border-radius:9px; font-weight:600; text-decoration:none; transition:all 0.2s; margin:4px; }
+    .bgc:hover { border-color:var(--blue); color:var(--blue); }
+    .bhm { display:inline-block; background:var(--blue); color:white; padding:11px 22px; border-radius:9px; font-weight:700; text-decoration:none; transition:background 0.2s; margin:4px; }
+    .bhm:hover { background:var(--blue-dark); }
+
+    /* AVAILABILITY */
+    .avail-ok {
+      background:#D1FAE5; border:2px solid #6EE7B7; border-radius:14px;
+      padding:18px 20px; display:flex; gap:14px; align-items:center; margin-bottom:6px;
+    }
+    .avail-err {
+      background:#FEE2E2; border:2px solid #FCA5A5; border-radius:14px;
+      padding:18px 20px; display:flex; gap:14px; align-items:flex-start;
+      margin-bottom:14px; font-size:0.88rem;
+    }
+    .avail-ico { font-size:1.6rem; flex-shrink:0; }
+    .alt-card {
+      border:2px solid var(--slate-200); border-radius:12px; padding:14px 18px;
+      cursor:pointer; transition:all 0.18s; display:flex;
+      justify-content:space-between; align-items:center;
+      background:white; margin-bottom:9px;
+    }
+    .alt-card:hover { border-color:var(--blue); background:var(--blue-pale); }
+    .alt-card.sel   { border-color:var(--blue); background:var(--blue-pale); }
+    .alt-date  { font-weight:700; font-size:0.9rem; }
+    .alt-hint  { font-size:0.74rem; color:var(--slate-500); margin-top:2px; }
+    .alt-time  { font-size:1.4rem; font-weight:900; color:var(--blue); }
+
+    /* WA */
+    #wa { position:fixed; bottom:26px; right:26px; z-index:999; width:52px; height:52px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,.4); transition:transform .2s; }
+    #wa:hover { transform:scale(1.1); }
+
+    @media(max-width:560px){
+      .g2,.fr2 { grid-template-columns:1fr; }
+      .g3 { grid-template-columns:1fr 1fr; }
+      .g4 { grid-template-columns:1fr 1fr; }
+      .step { padding:22px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Linus <span>Rhyno</span> Holthey</a>
+    <a href="index.html" class="nav-back">← Zurück</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- PROGRESS -->
+  <div id="progWrap">
+    <div class="prog-outer">
+      <div class="pdot active" id="d1">1</div>
+      <div class="pline" id="l1"></div>
+      <div class="pdot pending" id="d2">2</div>
+      <div class="pline" id="l2"></div>
+      <div class="pdot pending" id="d3">3</div>
+      <div class="pline" id="l3"></div>
+      <div class="pdot pending" id="d4">4</div>
+    </div>
+    <div class="prog-lbl" id="plbl">Schritt 1 von 4 — Bereich wählen</div>
+  </div>
+
+  <!-- ═══ STEP 1: Kategorie ═══ -->
+  <div class="step on" id="s1">
+    <h2>Was möchtest du buchen?</h2>
+    <p class="sub">Wähle den passenden Bereich — du wirst direkt zum richtigen Formular weitergeleitet.</p>
+    <div class="og g3">
+      <div class="oc big" onclick="pickCat('padel',this)">
+        <div class="oi">🎾</div>
+        <div class="ol">Padel Training</div>
+        <div class="od">Einzel oder Gruppe</div>
+      </div>
+      <div class="oc big" onclick="pickCat('mental',this)">
+        <div class="oi">🧠</div>
+        <div class="ol">Mental Coaching</div>
+        <div class="od">Turnier &amp; Wettkampf</div>
+      </div>
+      <div class="oc big" onclick="pickCat('finance',this)">
+        <div class="oi">💼</div>
+        <div class="ol">Finanzberatung</div>
+        <div class="od">Finanzen · Immobilien · Versicherungen</div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <span></span>
+      <button class="bnx" id="btn1" disabled onclick="next()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2A: Padel ═══ -->
+  <div class="step" id="s2a">
+    <h2>🎾 Padel Training</h2>
+    <p class="sub">Stell dein Training zusammen.</p>
+
+    <span class="fl">Trainingsart</span>
+    <div class="og g2">
+      <div class="oc" onclick="p('type','single',this,'s2a'); showEl('grpSec',false)">
+        <div class="oi">👤</div><div class="ol">Einzeltraining</div><div class="od">1-auf-1 mit Rhyno</div>
+      </div>
+      <div class="oc" onclick="p('type','group',this,'s2a'); showEl('grpSec',true)">
+        <div class="oi">👥</div><div class="ol">Gruppentraining</div><div class="od">2 bis 4 Spieler</div>
+      </div>
+    </div>
+
+    <div id="grpSec" style="display:none;">
+      <span class="fl">Anzahl Spieler (inkl. dir)</span>
+      <div class="og g4" style="margin-bottom:20px;">
+        <div class="oc" onclick="p('size','2',this,'s2a')"><div class="ol">2</div></div>
+        <div class="oc" onclick="p('size','3',this,'s2a')"><div class="ol">3</div></div>
+        <div class="oc" onclick="p('size','4',this,'s2a')"><div class="ol">4</div></div>
+      </div>
+    </div>
+
+    <span class="fl">Dauer</span>
+    <div class="og g3">
+      <div class="oc" onclick="p('dur','60',this,'s2a')"><div class="ol">60 Min</div><div class="od">Standard</div></div>
+      <div class="oc" onclick="p('dur','90',this,'s2a')"><div class="ol">90 Min</div><div class="od">Intensiv</div></div>
+      <div class="oc" onclick="p('dur','120',this,'s2a')"><div class="ol">120 Min</div><div class="od">Deep Dive</div></div>
+    </div>
+
+    <span class="fl" style="margin-top:4px;">Dein Level</span>
+    <div class="og g4">
+      <div class="oc" onclick="p('lvl','Beginner',this,'s2a')"><div class="ol">Beginner</div><div class="od">Neueinsteiger</div></div>
+      <div class="oc" onclick="p('lvl','Amateur',this,'s2a')"><div class="ol">Amateur</div><div class="od">Grundlagen da</div></div>
+      <div class="oc" onclick="p('lvl','Intermediate',this,'s2a')"><div class="ol">Intermediate</div><div class="od">Regelmäßig</div></div>
+      <div class="oc" onclick="p('lvl','Profi',this,'s2a')"><div class="ol">Profi</div><div class="od">Wettkampf</div></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="bbk" onclick="back()">← Zurück</button>
+      <button class="bnx" onclick="next()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2B: Mental Coaching ═══ -->
+  <div class="step" id="s2b">
+    <h2>🧠 Mental Coaching</h2>
+    <p class="sub">Turnier- und Wettkampfbetreuung — einzeln oder als Team. Ihr teilt euch die Kosten, ich bin für alle da.</p>
+
+    <span class="fl">Betreuungsart</span>
+    <div class="og g2">
+      <div class="oc" onclick="p('mtype','single',this,'s2b'); showEl('mentalGrp',false)">
+        <div class="oi">👤</div><div class="ol">Einzelbetreuung</div><div class="od">Nur für mich</div>
+      </div>
+      <div class="oc" onclick="p('mtype','group',this,'s2b'); showEl('mentalGrp',true)">
+        <div class="oi">👥</div><div class="ol">Gruppenbetreuung</div><div class="od">Wir kommen zusammen</div>
+      </div>
+    </div>
+
+    <div id="mentalGrp" style="display:none; margin-bottom:20px;">
+      <span class="fl">Weitere Spieler (optional — damit ich euch gemeinsam buche)</span>
+      <div class="players" id="pList"></div>
+      <button class="padd" onclick="addPlayer()">+ Spieler hinzufügen</button>
+    </div>
+
+    <span class="fl">Sportart</span>
+    <div class="og g3">
+      <div class="oc" onclick="p('sport','Padel',this,'s2b')"><div class="oi">🎾</div><div class="ol">Padel</div></div>
+      <div class="oc" onclick="p('sport','Tennis',this,'s2b')"><div class="oi">🎾</div><div class="ol">Tennis</div></div>
+      <div class="oc" onclick="p('sport','Andere',this,'s2b')"><div class="oi">🏅</div><div class="ol">Andere</div></div>
+    </div>
+
+    <div class="fr">
+      <label>Turnier / Event Name *</label>
+      <input type="text" id="eventName" placeholder="z.B. Padel Masters Hamburg">
+    </div>
+    <div class="fr">
+      <label>Möchtest du noch etwas mitteilen?</label>
+      <textarea id="mentalNote" placeholder="Was soll ich wissen — Ziele, besondere Situation, Erwartungen..."></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="bbk" onclick="back()">← Zurück</button>
+      <button class="bnx" onclick="next()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2C: Finance ═══ -->
+  <div class="step" id="s2c">
+    <h2>💼 Finanzberatung</h2>
+    <p class="sub">Einfach und kurz — du musst nicht viel ausfüllen.</p>
+
+    <!-- 1. Erstkunde oder Bestandskunde -->
+    <span class="fl">Bist du zum ersten Mal hier?</span>
+    <div class="og g2" style="margin-bottom:26px;">
+      <div class="oc" onclick="p('custype','new',this,'s2c'); showEl('existingHint',false)">
+        <div class="oi">👋</div>
+        <div class="ol">Erstes Gespräch</div>
+        <div class="od">Wir kennen uns noch nicht</div>
+      </div>
+      <div class="oc" onclick="p('custype','existing',this,'s2c'); showEl('existingHint',true)">
+        <div class="oi">🔄</div>
+        <div class="ol">Ich bin bereits Kunde</div>
+        <div class="od">Wir kennen uns schon</div>
+      </div>
+    </div>
+
+    <div class="ibox" id="existingHint" style="display:none;">
+      Schön, dass du wieder da bist! Schreib unten kurz was du besprechen möchtest — Update, neue Situation oder Folgethema.
+    </div>
+
+    <!-- 2. Name -->
+    <div class="fr2">
+      <div class="fr"><label>Vorname *</label><input type="text" id="finFirst" placeholder="Max"></div>
+      <div class="fr"><label>Nachname *</label><input type="text" id="finLast" placeholder="Mustermann"></div>
+    </div>
+
+    <!-- 3. Optional: Thema als Chips -->
+    <span class="fl">Worum geht es ungefähr? <span style="font-weight:400;color:var(--slate-500);">(optional)</span></span>
+    <div class="chips" id="finChips" style="margin-bottom:14px;">
+      <div class="chip" onclick="togChip('Tarife &amp; Verträge',this)">📱 Tarife &amp; Verträge</div>
+      <div class="chip" onclick="togChip('Investment',this)">📈 Investment</div>
+      <div class="chip" onclick="togChip('Immobilien',this)">🏠 Immobilien</div>
+      <div class="chip" onclick="togChip('Versicherungen',this)">🛡️ Versicherungen</div>
+      <div class="chip" onclick="togChip('Fördergelder',this)">🏢 Fördergelder</div>
+      <div class="chip" onclick="togChip('Allgemeine Infos',this)">💡 Einfach mal reden</div>
+    </div>
+
+    <!-- 4. Optional: Freitext (aufklappbar) -->
+    <button type="button" class="padd" style="margin-bottom:14px;text-align:left;" onclick="toggleFinNote()">
+      + Möchtest du noch etwas mitteilen? <span style="font-weight:400;">(optional)</span>
+    </button>
+    <div id="finNoteWrap" style="display:none;">
+      <div class="fr">
+        <textarea id="finNote" placeholder="z.B. Ich zahle aktuell 89 € für Internet und frage mich ob das günstig ist..." rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- 5. Dauer -->
+    <span class="fl">Wie lange soll das Gespräch ungefähr sein?</span>
+    <div class="og g3">
+      <div class="oc" onclick="p('dur','15',this,'s2c')">
+        <div class="ol">15 Min</div>
+        <div class="od">Kurzer Check</div>
+      </div>
+      <div class="oc" onclick="p('dur','30',this,'s2c')">
+        <div class="ol">30 Min</div>
+        <div class="od">Beratungsgespräch</div>
+      </div>
+      <div class="oc" onclick="p('dur','60',this,'s2c')">
+        <div class="ol">60 Min</div>
+        <div class="od">Alles auf den Tisch</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="bbk" onclick="back()">← Zurück</button>
+      <button class="bnx" id="btn2c" onclick="next()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: Wunschtermin ═══ -->
+  <div class="step" id="s3">
+    <h2>📅 Wunschtermin</h2>
+    <p class="sub">Gib einfach deinen Wunschtermin ein — ich zeige dir sofort ob ich verfügbar bin. Falls nicht, bekommst du passende Alternativen.</p>
+
+    <div class="fr2" style="margin-bottom:10px;">
+      <div class="fr">
+        <label>Datum *</label>
+        <input type="date" id="bDate" oninput="resetCheck()">
+      </div>
+      <div class="fr">
+        <label>Wunschuhrzeit *</label>
+        <input type="time" id="bTime" oninput="resetCheck()" min="07:00" max="22:00" step="1800">
+      </div>
+    </div>
+
+    <button class="bnx" id="checkBtn" onclick="checkAvail()" disabled
+      style="width:100%;margin-bottom:22px;padding:13px;">
+      Verfügbarkeit prüfen
+    </button>
+
+    <!-- Ergebnis -->
+    <div id="availResult" style="display:none;">
+
+      <!-- ✅ Verfügbar -->
+      <div id="availYes" style="display:none;">
+        <div class="avail-ok">
+          <span class="avail-ico">✅</span>
+          <div>
+            <strong>Verfügbar!</strong><br>
+            <span id="slotConfirmed" style="font-size:0.88rem;color:#065F46;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ❌ Nicht verfügbar + Alternativen -->
+      <div id="availNo" style="display:none;">
+        <div class="avail-err">
+          <span class="avail-ico">❌</span>
+          <div>
+            <strong>Zu diesem Zeitpunkt bin ich leider nicht verfügbar.</strong><br>
+            <span style="font-size:0.84rem;color:#92400E;">Hier sind 3 passende Alternativen für dich:</span>
+          </div>
+        </div>
+        <div id="altsGrid"></div>
+      </div>
+
+    </div>
+
+    <div class="nav-row" style="margin-top:28px;">
+      <button class="bbk" onclick="back()">← Zurück</button>
+      <button class="bnx" id="btn3" disabled onclick="next()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: Kontakt ═══ -->
+  <div class="step" id="s4">
+    <h2>👤 Deine Kontaktdaten</h2>
+    <p class="sub">Fast geschafft!</p>
+
+    <div id="courtWarn" style="display:none;" class="wbox">
+      🎾 <strong>Platz buchen nicht vergessen!</strong> Du musst zusätzlich einen Court in einer Padel-Halle reservieren. Gib unten an, ob du das bereits erledigt hast.
+    </div>
+
+    <div class="fr2">
+      <div class="fr"><label>Vorname *</label><input type="text" id="fName" placeholder="Max"></div>
+      <div class="fr"><label>Nachname *</label><input type="text" id="lName" placeholder="Mustermann"></div>
+    </div>
+    <div class="fr"><label>E-Mail *</label><input type="email" id="bMail" placeholder="deine@email.de"></div>
+    <div class="fr"><label>Telefon <span style="font-weight:400;color:var(--slate-500);">(optional)</span></label><input type="tel" id="bTel" placeholder="+49 ..."></div>
+
+    <div id="courtBlock" style="display:none;">
+      <div class="div"></div>
+      <div class="fr">
+        <label>Platz bereits gebucht? *</label>
+        <select id="courtYN" onchange="toggleCourt()">
+          <option value="">Bitte wählen...</option>
+          <option value="ja">✅ Ja, Platz ist gebucht</option>
+          <option value="nein">❌ Nein, noch nicht</option>
+        </select>
+      </div>
+      <div id="courtLoc" style="display:none;">
+        <div class="fr"><label>Halle / Location</label><input type="text" id="courtName" placeholder="z.B. Padel Arena Hamburg"></div>
+      </div>
+      <div id="courtNo" style="display:none;" class="wbox">
+        Kein Problem — buche den Platz und teile mir in der Nachricht mit, wo ihr spielen wollt.
+      </div>
+    </div>
+
+    <div class="fr"><label>Nachricht <span style="font-weight:400;color:var(--slate-500);">(optional)</span></label><textarea id="bMsg" placeholder="Alles weitere, was ich wissen soll..."></textarea></div>
+
+    <div class="div"></div>
+    <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">Deine Buchungsübersicht</h3>
+    <div class="sumb" id="sumBox"></div>
+
+    <div class="nav-row">
+      <button class="bbk" onclick="back()">← Zurück</button>
+      <button class="bnx" onclick="submit()">Anfrage absenden ✓</button>
+    </div>
+  </div>
+
+  <!-- ═══ SUCCESS ═══ -->
+  <div class="step" id="sOK">
+    <div class="sc">
+      <div class="sci">✅</div>
+      <h2>Anfrage gesendet!</h2>
+      <p>Ich melde mich innerhalb von <strong>24 Stunden</strong> bei dir.<br>Halte den Termin schon mal frei!</p>
+      <div>
+        <a id="gcal" href="#" target="_blank" class="bgc">📅 In Google Calendar eintragen</a>
+        <a href="index.html" class="bhm">← Zur Startseite</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- WhatsApp -->
+<a href="https://wa.me/4915116444655" target="_blank" rel="noopener" id="wa" title="WhatsApp" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ══════════════════════════════════
+// KONFIGURATION — hier anpassen
+// ══════════════════════════════════
+const PADEL_SCHED = {
+  // Wochentag (0=So,1=Mo,...,6=Sa) → Halle + Slots
+  // ★ Trage hier deine Hallenzeiten ein sobald bekannt:
+  3: { loc:'Padel Halle (wird nach Bestätigung mitgeteilt)', slots:['17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00'] },
+  6: { loc:'Padel Halle (wird nach Bestätigung mitgeteilt)', slots:['10:00','11:00','12:00','13:00','14:00','15:00','16:00'] },
+};
+const FIN_SLOTS = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00'];
+
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+const B = { cat:null, type:null, mtype:null, size:null, dur:null, lvl:null, sport:null,
+            chips:[], date:null, time:null, loc:'' };
+let step = 1;
+let pCount = 0;
+
+const STEP_LABELS = {
+  1:'Schritt 1 von 4 — Bereich wählen',
+  2:'Schritt 2 von 4 — Details',
+  3:'Schritt 3 von 4 — Termin wählen',
+  4:'Schritt 4 von 4 — Deine Daten',
+};
+
+// ══════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════
+function next() {
+  if (step === 1) {
+    if (!B.cat) return;
+    const map = { padel:'s2a', mental:'s2b', finance:'s2c' };
+    show(map[B.cat]); step = 2;
+  } else if (step === 2) {
+    if (!validateStep2()) return;
+    show('s3'); initDate(); step = 3;
+  } else if (step === 3) {
+    if (!B.date || !B.time) return;
+    if (B.cat === 'padel') { showEl('courtWarn',true); showEl('courtBlock',true); }
+    renderSum(); show('s4'); step = 4;
+  }
+  updProg();
+}
+
+function back() {
+  if (step === 2) { show('s1'); step = 1; }
+  else if (step === 3) { const m={padel:'s2a',mental:'s2b',finance:'s2c'}; show(m[B.cat]); step = 2; }
+  else if (step === 4) { show('s3'); step = 3; }
+  updProg();
+}
+
+function show(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+
+function updProg() {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('d'+i).className = 'pdot '+(i<step?'done':i===step?'active':'pending');
+    if (i<4) document.getElementById('l'+i).className = 'pline '+(i<step?'done':'');
+  });
+  document.getElementById('plbl').textContent = STEP_LABELS[step]||'';
+}
+
+// ══════════════════════════════════
+// SELECTION HELPERS
+// ══════════════════════════════════
+function p(key, val, el, stepId) {
+  el.closest('.og').querySelectorAll('.oc').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  B[key] = val;
+}
+
+function pickCat(val, el) {
+  el.closest('.og').querySelectorAll('.oc').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  B.cat = val;
+  document.getElementById('btn1').disabled = false;
+}
+
+function showEl(id, show) {
+  document.getElementById(id).style.display = show ? 'block' : 'none';
+}
+
+function togChip(val, el) {
+  el.classList.toggle('sel');
+  const i = B.chips.indexOf(val);
+  if (i === -1) B.chips.push(val); else B.chips.splice(i,1);
+  // Special: Bestandskunde toggle
+  if (val === 'Bestandskunde') showEl('existingNote', el.classList.contains('sel'));
+}
+
+// ══════════════════════════════════
+// VALIDATION
+// ══════════════════════════════════
+function validateStep2() {
+  if (B.cat === 'padel')   return B.type && B.dur && B.lvl && (B.type==='single'||B.size);
+  if (B.cat === 'mental')  return B.mtype && B.sport && document.getElementById('eventName').value.trim();
+  if (B.cat === 'finance') {
+    const fn = document.getElementById('finFirst').value.trim();
+    const ln = document.getElementById('finLast').value.trim();
+    if (!B.custype || !fn || !ln || !B.dur) {
+      if (!B.custype) alert('Bitte wähle: Erstes Gespräch oder Bestandskunde.');
+      else if (!fn || !ln) alert('Bitte Vor- und Nachname eingeben.');
+      else alert('Bitte eine Gesprächsdauer wählen.');
+      return false;
+    }
+    B.finName = fn + ' ' + ln;
+    return true;
+  }
+  return false;
+}
+
+function toggleFinNote() {
+  const w = document.getElementById('finNoteWrap');
+  w.style.display = w.style.display === 'none' ? 'block' : 'none';
+}
+
+// ══════════════════════════════════
+// GROUP PLAYERS (Mental)
+// ══════════════════════════════════
+function addPlayer() {
+  pCount++;
+  const list = document.getElementById('pList');
+  const d = document.createElement('div');
+  d.className = 'prow'; d.id = 'pr'+pCount;
+  d.innerHTML = `<input type="text" placeholder="Name Spieler ${pCount}"><button class="prm" onclick="rmPlayer(${pCount})">✕</button>`;
+  list.appendChild(d);
+}
+function rmPlayer(id) { const e=document.getElementById('pr'+id); if(e) e.remove(); }
+
+// ══════════════════════════════════
+// DATE & SLOTS
+// ══════════════════════════════════
+// ══ AVAILABILITY CHECKER ══
+function initDate() {
+  const inp = document.getElementById('bDate');
+  inp.min = new Date(Date.now()+86400000).toISOString().split('T')[0];
+  inp.value = ''; document.getElementById('bTime').value = '';
+  document.getElementById('checkBtn').disabled = true;
+  document.getElementById('availResult').style.display = 'none';
+  document.getElementById('btn3').disabled = true;
+  B.date = null; B.time = null;
+}
+
+function resetCheck() {
+  const d = document.getElementById('bDate').value;
+  const t = document.getElementById('bTime').value;
+  document.getElementById('checkBtn').disabled = !(d && t);
+  document.getElementById('availResult').style.display = 'none';
+  document.getElementById('btn3').disabled = true;
+  B.date = null; B.time = null;
+}
+
+function getSlots(date) {
+  const day = new Date(date+'T12:00:00').getDay();
+  if (B.cat === 'padel') return PADEL_SCHED[day] ? PADEL_SCHED[day].slots : [];
+  return (day >= 1 && day <= 5) ? FIN_SLOTS : [];
+}
+
+function isAvail(date, time) {
+  return getSlots(date).includes(time);
+}
+
+// Round typed time to nearest 30min slot
+function roundTime(time) {
+  const [h,m] = time.split(':').map(Number);
+  const mins = Math.round((h*60+m)/30)*30;
+  const rh = Math.floor(mins/60), rm = mins%60;
+  return String(rh).padStart(2,'0')+':'+String(rm).padStart(2,'0');
+}
+
+// Find closest available slot on a given date to a target time
+function closestSlot(date, time) {
+  const slots = getSlots(date);
+  if (!slots.length) return null;
+  const [h,m] = time.split(':').map(Number);
+  const req = h*60+m;
+  let best = null, diff = Infinity;
+  for (const s of slots) {
+    const [sh,sm] = s.split(':').map(Number);
+    const d = Math.abs(sh*60+sm-req);
+    if (d < diff) { diff = d; best = s; }
+  }
+  return best;
+}
+
+// Find next date (starting from date+skipDays) that has slots
+function nextAvailDate(fromDate, skipDays, prefTime) {
+  let d = new Date(fromDate+'T12:00:00');
+  d.setDate(d.getDate()+skipDays);
+  for (let i=0; i<21; i++) {
+    const ds = d.toISOString().split('T')[0];
+    const slot = closestSlot(ds, prefTime);
+    if (slot) return { date:ds, time:slot };
+    d.setDate(d.getDate()+1);
+  }
+  return null;
+}
+
+function findAlts(date, time) {
+  const alts = [];
+
+  // Option 1: gleicher Tag, nächste freie Zeit
+  const sameSlot = closestSlot(date, time);
+  if (sameSlot) {
+    const [sh,sm] = sameSlot.split(':').map(Number);
+    const [th,tm] = time.split(':').map(Number);
+    const diff = (sh*60+sm)-(th*60+tm);
+    const hint = diff > 0
+      ? `${diff} Min später — gleicher Tag`
+      : `${Math.abs(diff)} Min früher — gleicher Tag`;
+    alts.push({ date, time:sameSlot, hint });
+  }
+
+  // Option 2: nächster verfügbarer Tag, selbe Uhrzeit
+  const nd = nextAvailDate(date, 1, time);
+  if (nd) alts.push({ ...nd, hint:'Nächster verfügbarer Tag' });
+
+  // Option 3: nächste Woche, selber Wochentag
+  const nwDate = new Date(date+'T12:00:00');
+  nwDate.setDate(nwDate.getDate()+7);
+  const nws = nwDate.toISOString().split('T')[0];
+  const nwSlot = closestSlot(nws, time);
+  if (nwSlot) alts.push({ date:nws, time:nwSlot, hint:'Nächste Woche, gleicher Wochentag' });
+
+  return alts.slice(0,3);
+}
+
+function fmtDate(ds) {
+  return new Date(ds+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long'});
+}
+
+function checkAvail() {
+  const date = document.getElementById('bDate').value;
+  const raw  = document.getElementById('bTime').value;
+  if (!date || !raw) return;
+  const time = roundTime(raw);
+
+  document.getElementById('availResult').style.display = 'block';
+  document.getElementById('availYes').style.display = 'none';
+  document.getElementById('availNo').style.display  = 'none';
+
+  if (isAvail(date, time)) {
+    B.date = date; B.time = time;
+    const loc = B.cat==='padel' ? (PADEL_SCHED[new Date(date+'T12:00:00').getDay()]?.loc||'') : '';
+    document.getElementById('slotConfirmed').textContent =
+      fmtDate(date)+' um '+time+' Uhr'+(loc?' — '+loc:'');
+    document.getElementById('availYes').style.display = 'block';
+    document.getElementById('btn3').disabled = false;
+  } else {
+    const alts = findAlts(date, time);
+    const grid = document.getElementById('altsGrid');
+    grid.innerHTML = alts.length
+      ? alts.map(a => `
+          <div class="alt-card" onclick="pickAlt('${a.date}','${a.time}',this)">
+            <div>
+              <div class="alt-date">${fmtDate(a.date)}</div>
+              <div class="alt-hint">${a.hint}</div>
+            </div>
+            <div class="alt-time">${a.time} Uhr</div>
+          </div>`).join('')
+      : '<p style="color:var(--slate-500);font-size:0.86rem;">Keine Alternativen gefunden — bitte ein anderes Datum wählen.</p>';
+    document.getElementById('availNo').style.display = 'block';
+    document.getElementById('btn3').disabled = true;
+  }
+}
+
+function pickAlt(date, time, el) {
+  document.querySelectorAll('.alt-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  B.date = date; B.time = time;
+  document.getElementById('btn3').disabled = false;
+}
+
+// ══════════════════════════════════
+// SUMMARY
+// ══════════════════════════════════
+function renderSum() {
+  const rows = [];
+  if (B.cat==='padel') {
+    rows.push(['Bereich','🎾 Padel Training']);
+    rows.push(['Art', B.type==='single'?'Einzeltraining':'Gruppentraining']);
+    if (B.size) rows.push(['Spieler',B.size]);
+    rows.push(['Dauer',B.dur+' Min']);
+    rows.push(['Level',B.lvl]);
+  } else if (B.cat==='mental') {
+    rows.push(['Bereich','🧠 Mental Coaching']);
+    rows.push(['Art', B.mtype==='single'?'Einzelbetreuung':'Gruppenbetreuung']);
+    rows.push(['Sportart',B.sport]);
+    rows.push(['Event',document.getElementById('eventName').value]);
+  } else {
+    rows.push(['Bereich','💼 Finanzberatung']);
+    if (B.chips.length) rows.push(['Themen',B.chips.join(', ')]);
+    rows.push(['Dauer',B.dur+' Min']);
+  }
+  const d = new Date(B.date+'T12:00:00');
+  rows.push(['Datum',d.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})]);
+  rows.push(['Uhrzeit',B.time+' Uhr']);
+  if (B.loc) rows.push(['Location',B.loc]);
+  document.getElementById('sumBox').innerHTML = rows.map(([k,v])=>
+    `<div class="sumr"><span class="sk">${k}</span><span class="sv">${v}</span></div>`).join('');
+}
+
+function toggleCourt() {
+  const v = document.getElementById('courtYN').value;
+  showEl('courtLoc', v==='ja'); showEl('courtNo', v==='nein');
+}
+
+// ══════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════
+function submit() {
+  const fn=document.getElementById('fName').value.trim();
+  const ln=document.getElementById('lName').value.trim();
+  const em=document.getElementById('bMail').value.trim();
+  if (!fn||!ln||!em) { alert('Bitte Vor- und Nachname sowie E-Mail ausfüllen.'); return; }
+
+  // Google Calendar link
+  const dt = new Date(B.date+'T'+B.time+':00');
+  const de = new Date(dt.getTime()+parseInt(B.dur||60)*60000);
+  const fmt = d => d.toISOString().replace(/[-:.]/g,'').slice(0,15)+'Z';
+  const titles = {
+    padel:   `Padel Training mit Rhyno (${B.type==='single'?'Einzeln':'Gruppe'})`,
+    mental:  `Mental Coaching mit Rhyno — ${document.getElementById('eventName').value||'Turnier'}`,
+    finance: `${B.dur} Min Finanzberatung mit Linus Rhyno Holthey`,
+  };
+  document.getElementById('gcal').href =
+    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titles[B.cat]||'Termin')}&dates=${fmt(dt)}/${fmt(de)}`;
+
+  // ══ E-Mail senden ══
+  // OPTION A (sofort, kein Setup): öffnet Mail-Programm
+  // OPTION B: Formspree — trage deinen Code ein und kommentiere Option A aus
+  const FORMSPREE_CODE = ''; // ← z.B. 'xrgvkpqw' von formspree.io eintragen
+
+  const bereich = { padel:'🎾 Padel Training', mental:'🧠 Mental Coaching', finance:'💼 Finanzberatung' }[B.cat];
+  const details = B.cat === 'finance'
+    ? `Typ: ${B.custype==='new'?'Erstkunde':'Bestandskunde'}\nName: ${B.finName||fn+' '+ln}\nThemen: ${B.chips.join(', ')||'–'}\nDauer: ${B.dur} Min\nNotiz: ${document.getElementById('finNote')?.value||'–'}`
+    : B.cat === 'mental'
+    ? `Art: ${B.mtype}\nSportart: ${B.sport}\nEvent: ${document.getElementById('eventName').value}`
+    : `Art: ${B.type}\nDauer: ${B.dur} Min\nLevel: ${B.lvl}`;
+  const mailBody = `Neue Buchungsanfrage\n\nBereich: ${bereich}\n${details}\n\nDatum: ${B.date} um ${B.time} Uhr\n\nName: ${fn} ${ln}\nE-Mail: ${em}\nTel: ${document.getElementById('bTel').value||'–'}\nNachricht: ${document.getElementById('bMsg').value||'–'}`;
+
+  if (FORMSPREE_CODE) {
+    fetch(`https://formspree.io/f/${FORMSPREE_CODE}`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ bereich, name:fn+' '+ln, email:em, datum:B.date, uhrzeit:B.time, dauer:B.dur, chips:B.chips.join(', '), notiz:document.getElementById('bMsg').value })
+    });
+  } else {
+    // Fallback: öffnet Mail-Programm mit allen Daten vorausgefüllt
+    window.location.href = `mailto:linus.holthey@outlook.de?subject=${encodeURIComponent('Buchungsanfrage: '+bereich)}&body=${encodeURIComponent(mailBody)}`;
+  }
+
+  showEl('progWrap',false);
+  show('sOK');
+}
+
+// ══════════════════════════════════
+// AUTO-SELECT FROM URL PARAM
+// ══════════════════════════════════
+(function () {
+  const cat = new URLSearchParams(window.location.search).get('cat');
+  if (!cat) return;
+  const map = { padel:'s2a', mental:'s2b', finance:'s2c' };
+  if (!map[cat]) return;
+  B.cat = cat;
+  // Visually mark the card
+  const labels = { padel:'Padel Training', mental:'Mental Coaching', finance:'Finanzberatung' };
+  document.querySelectorAll('#s1 .oc').forEach(c => {
+    if (c.querySelector('.ol').textContent.trim() === labels[cat]) c.classList.add('sel');
+  });
+  show(map[cat]);
+  step = 2; updProg();
+})();
+
+// Min date init
+document.getElementById('bDate').min = new Date(Date.now()+86400000).toISOString().split('T')[0];
+</script>
+</body>
+</html>

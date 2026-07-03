@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Linus 'Rhyno' Holthey – Padel & Tennis Trainer, Mental Coach, Berater in Hamburg." />
+  <title>Rhyno – Linus Holthey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --navy:   #0f2144;
+      --blue:   #1a3a6b;
+      --blue2:  #2a5298;
+      --gold:   #c9a84c;
+      --white:  #ffffff;
+      --off:    #f5f6f8;
+      --text:   #1a1a2e;
+      --muted:  #6b7280;
+      --border: #e2e6ef;
+      --radius: 12px;
+      --max:    1100px;
+    }
+
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── TYPOGRAPHY ─────────────────────────────────────── */
+    .display { font-family: 'Bebas Neue', sans-serif; line-height: 1; letter-spacing: 0.03em; }
+
+    /* ── LAYOUT ─────────────────────────────────────────── */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    section:nth-child(even) { background: var(--off); }
+
+    /* ── BUTTONS ─────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary { background: var(--gold); color: var(--navy); }
+    .btn-primary:hover { background: #b8973e; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid var(--white); }
+    .btn-outline:hover { background: var(--white); color: var(--navy); }
+    .btn-navy { background: var(--navy); color: var(--white); }
+    .btn-navy:hover { background: var(--blue); transform: translateY(-1px); }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15, 33, 68, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .nav-inner {
+      max-width: var(--max); margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo img { height: 40px; mix-blend-mode: screen; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.8); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold); color: var(--navy); padding: 9px 20px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; }
+    .nav-cta:hover { background: #b8973e; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; background: var(--navy); z-index: 99; padding: 24px; border-bottom: 1px solid rgba(201,168,76,0.2); }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a { display: block; color: rgba(255,255,255,0.85); font-size: 1rem; font-weight: 500; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); text-transform: uppercase; letter-spacing: 0.06em; }
+    .mobile-menu a:last-child { border-bottom: none; color: var(--gold); }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, #1e4d8c 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding-top: 64px;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('assets/foto-padel-action.jpeg') center/cover no-repeat;
+      opacity: 0.12;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: var(--max); margin: 0 auto;
+      padding: 90px 24px 80px;
+    }
+    .hero-inner > * { max-width: 560px; }
+    .hero-eyebrow { color: var(--gold); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+    .hero-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 8vw, 7rem); color: var(--white); line-height: 0.92; margin-bottom: 12px; }
+    .hero-name span { color: var(--gold); }
+    .hero-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: rgba(255,255,255,0.6); letter-spacing: 0.08em; margin-bottom: 24px; }
+    .hero-desc { color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.7; max-width: 480px; margin-bottom: 36px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 40px; }
+    .hero-stat { text-align: center; padding: 20px 12px; background: rgba(255,255,255,0.06); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1); }
+    .hero-stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--gold); line-height: 1; }
+    .hero-stat .lbl { font-size: 0.72rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+    .hero-photo { display: flex; align-items: center; justify-content: center; }
+    .hero-photo img { width: 90%; max-width: 360px; object-fit: contain; mix-blend-mode: screen; filter: contrast(1.6) brightness(1.1); }
+
+    /* ── SECTION HEADERS ─────────────────────────────────── */
+    .sec-label { color: var(--gold); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+    .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--navy); line-height: 1.05; margin-bottom: 16px; }
+    .sec-title.light { color: var(--white); }
+    .sec-intro { color: var(--muted); font-size: 1rem; max-width: 580px; line-height: 1.7; margin-bottom: 48px; }
+    .sec-intro.light { color: rgba(255,255,255,0.7); }
+
+    /* ── ABOUT ───────────────────────────────────────────── */
+    #about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start; }
+    .about-photo-wrap { position: relative; border-radius: 16px; overflow: hidden; }
+    .about-photo-wrap img { width: 100%; display: block; object-fit: cover; aspect-ratio: 4/5; object-position: center 43%; transform: scale(1.35); transform-origin: center 43%; }
+    .about-tag {
+      position: absolute; top: 20px; right: -16px;
+      background: var(--navy); color: var(--white);
+      padding: 10px 16px; border-radius: 8px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .about-content h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,4vw,3rem); color: var(--navy); margin-bottom: 6px; line-height: 1; }
+    .about-content .about-nick { color: var(--gold); font-size: 1rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+    .about-content p { color: var(--muted); font-size: 0.97rem; line-height: 1.75; margin-bottom: 16px; }
+    .about-content p strong { color: var(--text); font-weight: 600; }
+    .about-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+    .chip { padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; background: var(--off); border: 1px solid var(--border); color: var(--blue); }
+    .about-timeline { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .tl-item { display: flex; gap: 14px; align-items: flex-start; }
+    .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); margin-top: 6px; flex-shrink: 0; }
+    .tl-text { font-size: 0.88rem; color: var(--muted); }
+    .tl-text strong { color: var(--text); }
+
+    /* ── SPORT ───────────────────────────────────────────── */
+    #sport { background: var(--off); }
+    .sport-tabs { display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 10px 22px; border-radius: 6px; border: 2px solid var(--border);
+      background: var(--white); color: var(--muted); font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .tab-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Trainer panel */
+    .trainer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; }
+    .trainer-card { background: var(--white); border-radius: var(--radius); padding: 28px 22px; border: 1px solid var(--border); }
+    .trainer-card .icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .trainer-card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; color: var(--navy); margin-bottom: 8px; letter-spacing: 0.03em; }
+    .trainer-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* Preise */
+    .price-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; margin-top: 32px; }
+    .price-card { background: var(--white); border-radius: var(--radius); padding: 32px 26px; border: 1px solid var(--border); text-align: center; }
+    .price-card.featured { background: var(--navy); border-color: var(--navy); }
+    .price-card.featured h4, .price-card.featured .price-amount, .price-card.featured p { color: var(--white); }
+    .price-card.featured .price-note { color: rgba(255,255,255,0.6); }
+    .price-card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 8px; }
+    .price-amount { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--gold); line-height: 1; margin: 12px 0 4px; }
+    .price-note { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; }
+    .price-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+
+    /* Spieler panel */
+    .spieler-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
+    .spieler-photo { border-radius: 16px; overflow: hidden; }
+    .spieler-photo img { width: 100%; display: block; object-fit: cover; aspect-ratio: 3/4; object-position: center 43%; transform: scale(1.35); transform-origin: center 43%; }
+    .spieler-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .stat-box { background: var(--white); border-radius: var(--radius); padding: 20px 16px; text-align: center; border: 1px solid var(--border); }
+    .stat-box .n { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--navy); line-height: 1; }
+    .stat-box .l { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+    .story-block { background: var(--white); border-radius: var(--radius); padding: 24px; border-left: 4px solid var(--gold); margin-bottom: 16px; }
+    .story-block h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .story-block p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .more-story { display: none; }
+    .more-story.open { display: block; }
+    .read-more-btn { background: none; border: none; color: var(--blue2); font-size: 0.83rem; font-weight: 600; cursor: pointer; padding: 8px 0; text-decoration: underline; }
+
+    /* ── MENTAL ──────────────────────────────────────────── */
+    #mental { background: var(--navy); }
+    .mental-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .mental-photo { border-radius: 16px; overflow: hidden; }
+    .mental-photo img { width: 100%; display: block; object-fit: cover; aspect-ratio: 4/3; object-position: center 40%; }
+    .mental-cards { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+    .mental-card { background: rgba(255,255,255,0.06); border-radius: var(--radius); padding: 20px 22px; border: 1px solid rgba(255,255,255,0.1); }
+    .mental-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+    .mental-card p { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .mental-short { color: rgba(255,255,255,0.7); font-size: 0.97rem; line-height: 1.75; margin-bottom: 20px; }
+    .mental-more { display: none; }
+    .mental-more.open { display: block; }
+    .mental-more p { color: rgba(255,255,255,0.65); font-size: 0.9rem; line-height: 1.75; margin-bottom: 12px; }
+    .mental-inquiry-form { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 24px; }
+    .mf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .mf-field { display: flex; flex-direction: column; gap: 5px; }
+    .mf-field label { font-size: 0.75rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.06em; }
+    .mf-field input, .mf-field select, .mf-field textarea { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 14px; color: white; font-size: 0.88rem; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .mf-field input::placeholder, .mf-field textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .mf-field input:focus, .mf-field select:focus, .mf-field textarea:focus { border-color: var(--gold); }
+    .mf-field select option { background: var(--navy); color: white; }
+    .mf-field textarea { resize: vertical; min-height: 80px; }
+    @media (max-width: 600px) { .mf-row { grid-template-columns: 1fr; } }
+    .read-more-btn.light { color: var(--gold); }
+
+    /* ── FINANZEN ────────────────────────────────────────── */
+    #finanzen { background: var(--white); }
+    .finance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; margin-bottom: 48px; }
+    .finance-card { background: var(--off); border-radius: var(--radius); padding: 28px 24px; border: 1px solid var(--border); transition: all 0.2s; }
+    .finance-card:hover { border-color: var(--blue2); transform: translateY(-2px); }
+    .finance-card .ico { font-size: 1.8rem; margin-bottom: 14px; }
+    .finance-card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 8px; }
+    .finance-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .finance-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+    .fn-box { background: var(--navy); border-radius: var(--radius); padding: 24px 20px; text-align: center; }
+    .fn-box .q { font-size: 0.76rem; color: rgba(201,168,76,0.75); font-style: italic; line-height: 1.45; margin-bottom: 10px; }
+    .fn-box .n { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; color: var(--gold); }
+    .fn-box .l { font-size: 0.75rem; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; margin-top: 6px; line-height: 1.5; }
+
+    /* ── REVIEWS DROPDOWN ────────────────────────────────── */
+    .reviews-dropdown { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 32px; }
+    .reviews-dropdown summary { padding: 16px 20px; cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--navy); background: var(--off); list-style: none; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+    .reviews-dropdown summary::-webkit-details-marker { display: none; }
+    .reviews-dropdown summary::after { content: '▼'; font-size: 0.7rem; color: var(--muted); transition: transform 0.2s; }
+    .reviews-dropdown[open] summary::after { transform: rotate(180deg); }
+    .reviews-count { font-size: 0.78rem; color: #f59e0b; font-weight: 500; }
+    .reviews-inner { padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 16px; background: var(--white); }
+    .testimonial { background: var(--off); border-radius: var(--radius); padding: 22px 20px; border: 1px solid var(--border); }
+    .stars { color: #f59e0b; font-size: 0.95rem; margin-bottom: 10px; }
+    .testimonial p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 14px; font-style: italic; }
+    .testimonial .author { font-size: 0.8rem; font-weight: 600; color: var(--navy); }
+    .testimonial .context { font-size: 0.73rem; color: var(--muted); }
+
+    /* ── SOCIAL / CONTENT ────────────────────────────────── */
+    #content { background: var(--navy); }
+    .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-bottom: 48px; }
+    .social-card { background: rgba(255,255,255,0.06); border-radius: var(--radius); padding: 24px 20px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
+    .social-card:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
+    .social-card .platform { font-size: 1.5rem; margin-bottom: 10px; }
+    .social-card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--white); margin-bottom: 6px; }
+    .social-card p { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .social-card .goal { font-size: 0.75rem; color: var(--gold); font-weight: 600; margin-top: 10px; }
+
+    /* ── ZIELE ───────────────────────────────────────────── */
+    #ziele { background: var(--off); }
+    .ziele-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; }
+    .ziel-card { background: var(--white); border-radius: var(--radius); padding: 28px 22px; border: 1px solid var(--border); }
+    .ziel-card .emoji { font-size: 2rem; margin-bottom: 12px; }
+    .ziel-card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 8px; }
+    .ziel-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue2), var(--gold)); border-radius: 3px; }
+
+    /* ── BUCHEN ──────────────────────────────────────────── */
+    #buchen { background: var(--navy); }
+    .buchen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .buchen-cards { display: flex; flex-direction: column; gap: 16px; }
+    .buchen-card { background: rgba(255,255,255,0.06); border-radius: var(--radius); padding: 22px 24px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 18px; text-decoration: none; transition: all 0.2s; }
+    .buchen-card:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); transform: translateX(4px); }
+    .buchen-card .bc-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .buchen-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .buchen-card p { font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+    .buchen-card .bc-arrow { margin-left: auto; color: var(--gold); font-size: 1.2rem; }
+
+    /* Contact form */
+    .contact-form { background: rgba(255,255,255,0.05); border-radius: var(--radius); padding: 32px; border: 1px solid rgba(255,255,255,0.1); }
+    .contact-form h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); margin-bottom: 6px; }
+    .contact-form .sub { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-bottom: 24px; }
+    .form-row { margin-bottom: 16px; }
+    .form-row label { display: block; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+    .form-row input, .form-row select, .form-row textarea {
+      width: 100%; padding: 12px 16px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: var(--white); font-size: 0.9rem; font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-row input::placeholder, .form-row textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline: none; border-color: var(--gold); }
+    .form-row select option { background: var(--navy); }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+    .form-success { display: none; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 16px; color: #86efac; font-size: 0.88rem; text-align: center; margin-top: 12px; }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer { background: #070f1f; padding: 40px 0; border-top: 1px solid rgba(201,168,76,0.2); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo img { height: 36px; mix-blend-mode: screen; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .whatsapp-fab {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #25d366; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+      transition: transform 0.2s;
+    }
+    .whatsapp-fab:hover { transform: scale(1.08); }
+    .whatsapp-fab svg { width: 28px; height: 28px; fill: white; }
+
+    /* ── LIVE TRACKER ────────────────────────────────────── */
+    .live-tracker { background: var(--navy); border-radius: 16px; padding: 32px; color: white; margin-bottom: 40px; }
+    .tracker-top { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .tracker-badge { background: rgba(201,168,76,0.2); color: var(--gold); padding: 4px 12px; border-radius: 100px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .live-tracker h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: white; margin: 0; }
+    .tracker-cells { display: grid; grid-template-columns: 180px 1fr 1fr; gap: 32px; align-items: start; }
+    .t-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--gold); line-height: 1; }
+    .t-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 5px; margin-bottom: 18px; }
+    .t-track { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; position: relative; margin-bottom: 10px; overflow: visible; }
+    .t-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #2a5298, var(--gold)); position: absolute; top: 0; left: 0; }
+    .t-marker { position: absolute; top: -5px; width: 3px; height: 18px; border-radius: 2px; transform: translateX(-50%); }
+    .t-marker.goal-marker { background: rgba(255,255,255,0.85); }
+    .t-marker.bonus-marker { background: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.6); }
+    .t-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: rgba(255,255,255,0.4); }
+    .t-labels .lbl-goal { color: var(--gold); font-weight: 700; font-size: 0.75rem; }
+    .t-labels .lbl-bonus { color: #7ab8d9; font-size: 0.66rem; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .tracker-cells { grid-template-columns: 1fr 1fr; }
+      section { padding: 56px 0; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { padding: 64px 24px 56px; }
+      .hero-stats { grid-template-columns: repeat(3,1fr); gap: 10px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-tag { right: 0; }
+      .spieler-layout { grid-template-columns: 1fr; }
+      .mental-grid { grid-template-columns: 1fr; }
+      .buchen-grid { grid-template-columns: 1fr; }
+      .finance-numbers { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#hero">
+      <img src="assets/rhyno-logo.jpeg" alt="Rhyno" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Über mich</a></li>
+      <li><a href="#sport">Sport</a></li>
+      <li><a href="#mental">Mental</a></li>
+      <li><a href="#finanzen">Beratung</a></li>
+      <li><a href="#content">Content</a></li>
+    </ul>
+    <a href="#buchen" class="nav-cta">Termin buchen</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">Über mich</a>
+  <a href="#sport" onclick="closeMobile()">Sport</a>
+  <a href="#mental" onclick="closeMobile()">Mental Coaching</a>
+  <a href="#finanzen" onclick="closeMobile()">Beratung</a>
+  <a href="#content" onclick="closeMobile()">Content & Ziele</a>
+  <a href="#buchen" onclick="closeMobile()">Termin buchen →</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Padel · Mental · Beratung · Content</p>
+    <h1 class="hero-name">LINUS<br><span>RHYNO</span><br>HOLTHEY</h1>
+    <p class="hero-sub">Hamburg · Padel · Mental · Beratung</p>
+    <p class="hero-desc">Padel- und Tennis-Trainer, Mental Coach, Berater. Ich möchte Menschen unterstützen und voranbringen in dem, was sie wollen.</p>
+    <div class="hero-btns">
+      <a href="#sport" class="btn btn-primary">Training buchen</a>
+      <a href="#about" class="btn btn-outline">Mehr erfahren</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">#53</div>
+        <div class="lbl">Highest Ranking DE</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">28</div>
+        <div class="lbl">Jahre alt</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">3+</div>
+        <div class="lbl">Jahre Beratung</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÜBER MICH -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo-wrap">
+        <img src="assets/foto-padel-action.jpeg" alt="Linus auf dem Padel Court" />
+      </div>
+      <div class="about-content">
+        <p class="sec-label">Über mich</p>
+        <h2>Linus Holthey</h2>
+        <p class="about-nick">🦏 Rhyno</p>
+        <p>Ich bin Padel- und Tennis-Trainer, Mental Coach und Berater aus Hamburg. Was mich antreibt: <strong>Menschen weiterbringen</strong> – auf dem Court und im Leben. Ich lebe alles, was ich weitergebe.</p>
+        <div class="about-chips">
+          <span class="chip">🎾 Padel & Tennis</span>
+          <span class="chip">🧠 Mental Coaching</span>
+          <span class="chip">💼 Finanzen & Immobilien</span>
+        </div>
+        <button class="read-more-btn" style="margin-top:24px;font-size:0.88rem;" onclick="toggleMore('about-more')">Mehr über Rhyno erfahren →</button>
+        <div class="more-story" id="about-more">
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+            <p style="font-size:0.92rem;color:var(--muted);line-height:1.75;"><strong style="color:var(--text);">Warum eigentlich Rhyno – mit Y?</strong><br>Das Y liegt in der Familie. Bei uns macht man aus dem Offensichtlichen gerne etwas Eigenes. Rhyno ist nicht einfach ein Spitzname – er steht dafür, wer ich bin: stur, ausdauernd, und mit Haut und Haaren dabei.</p>
+            <p style="font-size:0.92rem;color:var(--muted);line-height:1.75;">Ich komme aus Buchholz, bin mit Tennis aufgewachsen und irgendwann in die USA aufgebrochen – ohne Abitur, nur mit dem Glauben, dass es klappt. Hat es. Vier Jahre Collegesport, Psychologie-Abschluss, und die Erkenntnis: anderen zu helfen macht mir mehr Spaß als fast alles andere.</p>
+            <p style="font-size:0.92rem;color:var(--muted);line-height:1.75;">Padel habe ich erst 2025 entdeckt – und bin seitdem komplett weg davon. Was ich mache, lebe ich selbst. Das gilt für den Sport genauso wie für die Beratung.</p>
+            <p style="font-size:0.92rem;color:var(--muted);line-height:1.75;">Ich bin kein Typ, der sich gerne verkauft. Aber wenn du mich fragst was ich tue: Ich versuche Menschen weiterzubringen – auf dem Court, im Kopf und beim Geld.</p>
+            <div class="about-timeline">
+              <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>2016–2020</strong> — Vier Jahre USA · Collegesport · B.A. Psychologie</div></div>
+              <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>Seit 2021</strong> — Beratung in Hamburg · Immobilien, Finanzen, Menschen</div></div>
+              <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>13.03.2025</strong> — Erstes Padel-Match · seitdem nicht mehr aufgehört</div></div>
+              <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>Ende 2025</strong> — #53 in Deutschland · nicht schlecht fürs erste Jahr</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPORT -->
+<section id="sport">
+  <div class="container">
+    <p class="sec-label">Sport</p>
+    <h2 class="sec-title">Padel & Tennis mit Rhyno</h2>
+    <p class="sec-intro">Padel & Tennis – als Trainer und als aktiver Wettkampfspieler.</p>
+
+    <div class="sport-tabs">
+      <button class="tab-btn active" onclick="showTab('trainer')">Als Trainer</button>
+      <button class="tab-btn" onclick="showTab('preise')">Preise & Buchen</button>
+      <button class="tab-btn" onclick="showTab('spieler')">Als Spieler</button>
+      <button class="tab-btn" onclick="showTab('sponsoring')">Sponsoring</button>
+    </div>
+
+    <!-- TRAINER -->
+    <div class="tab-panel active" id="tab-trainer">
+      <div class="trainer-grid">
+        <div class="trainer-card"><div class="icon">🎯</div><h4>Technik</h4><p>Schlagtechnik, Footwork, Körperhaltung – die Grundlagen, die alles verändern.</p></div>
+        <div class="trainer-card"><div class="icon">🧠</div><h4>Taktik</h4><p>Positionierung, Spielaufbau, Fehleranalyse – klüger spielen statt nur härter.</p></div>
+        <div class="trainer-card"><div class="icon">💪</div><h4>Athletik</h4><p>Kondition, Schnelligkeit, Stabilität – der körperliche Unterschied im Match.</p></div>
+        <div class="trainer-card"><div class="icon">🧘</div><h4>Mentalität</h4><p>Fokus, Drucksituationen, Matchmentalität – der Kopf entscheidet im entscheidenden Moment.</p></div>
+      </div>
+      <div style="margin-top: 32px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="https://cal.com/rhyno" target="_blank" class="btn btn-navy">Training buchen →</a>
+        <button class="btn btn-outline" style="color:var(--navy);border-color:var(--border);" onclick="showTab('preise'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.tab-btn')[1].classList.add('active');">Preise ansehen →</button>
+      </div>
+    </div>
+
+    <!-- PREISE -->
+    <div class="tab-panel" id="tab-preise">
+      <p style="color:var(--muted);margin-bottom:28px;font-size:0.95rem;">Alle Preise verstehen sich exklusive Platzmiete – die wird direkt an die Anlage gezahlt. Standorte: Padel Amigos Halstenbek, Padel Amigos Jesteburg, weitere in Hamburg auf Anfrage.</p>
+      <div class="price-cards">
+        <div class="price-card">
+          <h4>Padel Einzeltraining</h4>
+          <div class="price-amount">40€</div>
+          <p class="price-note">pro Stunde · zzgl. Platzmiete</p>
+          <p>Intensives 1-auf-1 Training, vollständig auf dein Niveau und deine Ziele zugeschnitten. 60, 90 oder 120 Minuten möglich.</p>
+          <a href="https://cal.com/rhyno/padel-einzeltraining" target="_blank" class="btn btn-navy" style="width:100%;text-align:center;">Jetzt buchen</a>
+        </div>
+        <div class="price-card featured">
+          <h4>Padel Gruppentraining</h4>
+          <div class="price-amount">50€</div>
+          <p class="price-note">pro Stunde · geteilt durch Teilnehmer · zzgl. Platzmiete</p>
+          <p>Bis zu 4 Personen. Der Preis wird geteilt – gemeinsam mehr lernen für weniger Geld pro Person.</p>
+          <a href="https://cal.com/rhyno/padel-gruppentraining" target="_blank" class="btn btn-primary" style="width:100%;text-align:center;">Jetzt buchen</a>
+        </div>
+        <div class="price-card">
+          <h4>Tennis Training</h4>
+          <div class="price-amount">—</div>
+          <p class="price-note">Preis auf Anfrage</p>
+          <p>Einzeln oder in der Gruppe. Für alle Levels. Bitte direkt anfragen für Verfügbarkeit und Standort.</p>
+          <a href="https://wa.me/4915116444655" target="_blank" class="btn btn-navy" style="width:100%;text-align:center;">Anfragen →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPIELER -->
+    <div class="tab-panel" id="tab-spieler">
+      <div class="spieler-layout">
+        <div class="spieler-photo">
+          <img src="assets/foto-padel-wettkampf.jpeg" alt="Rhyno im Wettkampf" />
+        </div>
+        <div>
+          <div class="spieler-stats">
+            <div class="stat-box"><div class="n">#53</div><div class="l">Highest Ranking DE</div></div>
+            <div class="stat-box"><div class="n">Top 10</div><div class="l">Ziel Ende 2026</div></div>
+            <div class="stat-box"><div class="n">2028</div><div class="l">Nationalmannschaft</div></div>
+            <div class="stat-box"><div class="n">TEAM</div><div class="l" style="font-size:0.8rem;text-transform:none;letter-spacing:0.02em;color:var(--navy);font-weight:600;">Padel Amigos</div></div>
+          </div>
+
+          <div class="story-block">
+            <h4>Vom ersten Match zur 2. Bundesliga – in einem Jahr</h4>
+            <p>Am 13.03.2025 habe ich zum ersten Mal Padel gespielt. Seitdem kein Schritt zurück: ungeschlagen in der 2. Bundesliga, Top 100 in Deutschland, internationale Turniere. Mein Vorbild? Federico Chingotto – der Beweis, dass man mit dem spielt was man hat, und trotzdem der Beste darin wird.</p>
+            <button class="read-more-btn" onclick="toggleMore('spieler-more')">Mehr lesen →</button>
+          </div>
+          <div class="more-story" id="spieler-more">
+            <div class="story-block">
+              <h4>142 kg auf dem Court – und keine Entschuldigung dafür</h4>
+              <p>Ich spielte jahrelang Wettkampf bei 142 kg. Das zwingt einen, klüger zu spielen als andere. Positionierung, Spielintelligenz, mentale Stärke – das wurde mein Spiel. Genau deshalb mag ich Chingotto: er ist verhältnismäßig klein für Padel und hat den besten Smash nicht – aber er ist die Nummer 1 im Kopf. Das werde ich auch sein.</p>
+            </div>
+            <div class="story-block">
+              <h4>Olympia 2028 – die Reise hat begonnen</h4>
+              <p>Padel kommt 2028 zu Olympia. Mein Ziel: Teil der deutschen Nationalmannschaft sein. Bis Ende 2026 will ich in den Top 10 Deutschland stehen. Das ist kein Traum – das ist ein Plan. Und ich nehme euch mit.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPONSORING -->
+    <div class="tab-panel" id="tab-sponsoring">
+      <div style="max-width:600px;">
+        <p style="color:var(--muted);font-size:0.97rem;line-height:1.75;margin-bottom:24px;">Als aktiver Wettkampfspieler (Highest Ranking #53 Deutschland) trage ich dein Logo auf meiner Padel-Kleidung – sichtbar auf dem Court, bei Turnieren und in meinem Social-Media-Content.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <li style="font-size:0.88rem;color:var(--muted);">✓ Logo auf Padel-Kleidung bei Wettkämpfen & Turnieren</li>
+          <li style="font-size:0.88rem;color:var(--muted);">✓ Nennung in Social Media (Instagram, TikTok)</li>
+          <li style="font-size:0.88rem;color:var(--muted);">✓ Sichtbarkeit bei Turnieren deutschlandweit</li>
+          <li style="font-size:0.88rem;color:var(--muted);">✓ Individuelle Konditionen – lass uns sprechen</li>
+        </ul>
+        <a href="mailto:linus.holthey@outlook.de?subject=Sponsoring Anfrage" class="btn btn-navy">Sponsoring anfragen →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTAL COACHING -->
+<section id="mental">
+  <div class="container">
+    <div class="mental-grid">
+      <div>
+        <p class="sec-label" style="color:var(--gold);">Mental Coaching & Turnierbegleitung</p>
+        <h2 class="sec-title light">Dein Spiel. Mein Feuer.</h2>
+
+        <p class="mental-short">Ich begleite Sportler zu Turnieren – energetisch, pushend, motivierend. Alles außerhalb des Platzes liegt bei mir, damit dein Kopf frei ist für das, was zählt. Danach gibt es Matchanalyse.</p>
+
+        <button class="read-more-btn light" onclick="toggleMore('mental-more')">Mehr lesen →</button>
+        <div class="mental-more" id="mental-more">
+          <div style="margin-top:16px;">
+            <p style="color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.75;margin-bottom:12px;">In der Vorbereitung liegt oft der Teufel. Wer sich nicht vorbereitet <em>fühlt</em>, spielt schlechter – egal wie gut er ist. Das Racket in letzter Sekunde besaiten, die Tasche dreimal packen, die Anfahrt vergessen – kleine Unsicherheiten summieren sich zu echtem Stress. <strong style="color:white;">Ich kümmere mich um die Kleinigkeiten.</strong></p>
+            <p style="color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.75;margin-bottom:12px;">Wer früh ausscheidet, sitzt nicht auf der Tribüne. Es gibt Training. Weiterentwicklung statt Stillstand – in enger Absprache mit dem aktiven Coach. Keine Veränderungen nach einem Turnier, sondern Wiederholungen: das Richtige festigen.</p>
+            <p style="color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.75;margin-bottom:20px;">Ich selbst war als Kind auf Turnierreisen – der größte Spaß kam mit einem Betreuer in meinem Alter. Gemeinschaftsspiele zwischen den Matches, kein Grübeln vor dem nächsten Spiel. Genau das gebe ich zurück.</p>
+          </div>
+        </div>
+
+        <div class="mental-cards">
+          <div class="mental-card">
+            <h4>👤 Einzelbetreuung</h4>
+            <p>Persönliche Begleitung – ich bin nur für dich da. Vor dem Match, zwischen den Runden, nach dem letzten Punkt.</p>
+          </div>
+          <div class="mental-card">
+            <h4>👥 Teambetreuung</h4>
+            <p>Gruppe buchen, Kosten teilen – gemeinsam stärker. Ideal für Mannschaften bei Turnieren.</p>
+          </div>
+          <div class="mental-card">
+            <h4>🎾 Tennis & Padel</h4>
+            <p>Fokus auf Tennis und Padel. Anfragen aus anderen Wettkampfsportarten willkommen.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:28px;">
+          <button class="btn btn-primary" id="mentalToggleBtn" onclick="(function(){var f=document.getElementById('mental-form');var b=document.getElementById('mentalToggleBtn');if(f.style.display==='none'){f.style.display='block';b.textContent='Formular schließen ↑';}else{f.style.display='none';b.textContent='Mental Coaching anfragen →';}})()" style="width:100%;">Mental Coaching anfragen →</button>
+          <div id="mental-form" style="display:none;margin-top:20px;">
+            <form class="mental-inquiry-form" id="mentalForm">
+              <div class="mf-row">
+                <div class="mf-field">
+                  <label>Dein Name *</label>
+                  <input type="text" name="name" required placeholder="Vorname Nachname">
+                </div>
+                <div class="mf-field">
+                  <label>E-Mail *</label>
+                  <input type="email" name="email" required placeholder="deine@email.de">
+                </div>
+              </div>
+              <div class="mf-row">
+                <div class="mf-field">
+                  <label>Turnier / Veranstaltung *</label>
+                  <input type="text" name="turnier" required placeholder="z.B. DPV-Ranglistenturnier Hamburg">
+                </div>
+                <div class="mf-field">
+                  <label>Datum / Zeitraum *</label>
+                  <input type="text" name="zeitraum" required placeholder="z.B. 15.–17. August 2026">
+                </div>
+              </div>
+              <div class="mf-row">
+                <div class="mf-field">
+                  <label>Sportart</label>
+                  <select name="sportart">
+                    <option value="Padel">Padel</option>
+                    <option value="Tennis">Tennis</option>
+                    <option value="Andere">Andere</option>
+                  </select>
+                </div>
+                <div class="mf-field">
+                  <label>Wer wird begleitet?</label>
+                  <select name="begleitung">
+                    <option value="Ich selbst">Ich selbst</option>
+                    <option value="Mein Kind">Mein Kind / Nachwuchs</option>
+                    <option value="Anderer Sportler">Anderer Sportler</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mf-row">
+                <div class="mf-field">
+                  <label>Alter des Sportlers</label>
+                  <input type="text" name="alter" placeholder="z.B. 16 Jahre">
+                </div>
+                <div class="mf-field">
+                  <label>Weitere Spieler dabei?</label>
+                  <select name="team">
+                    <option value="Nein, alleine">Nein, alleine</option>
+                    <option value="Ja, 1 weiterer">Ja, 1 weiterer</option>
+                    <option value="Ja, 2 weitere">Ja, 2 weitere</option>
+                    <option value="Ja, mehr">Ja, mehr als 2</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mf-field" style="margin-top:12px;">
+                <label>Weitere Infos (optional)</label>
+                <textarea name="infos" rows="3" placeholder="Was soll ich wissen? Ziele, Hintergrund, Besonderheiten…"></textarea>
+              </div>
+              <input type="hidden" name="_subject" value="Mental Coaching Anfrage">
+              <button type="submit" class="btn btn-primary" style="width:100%;margin-top:16px;" id="mentalSubmitBtn">Anfrage senden →</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="mental-photo" style="max-width:320px;justify-self:center;">
+        <img src="assets/foto-tennis-camp-clean.jpeg" alt="Linus als Trainer und Betreuer" />
+        <div style="margin-top:20px;width:100%;text-align:center;padding:20px 16px;border:1px solid rgba(201,168,76,0.25);border-radius:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.8rem;color:var(--gold);letter-spacing:0.06em;line-height:1;">YP</div>
+          <div style="font-size:0.68rem;color:rgba(255,255,255,0.55);letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;line-height:1.8;">Your Potential<br>Your Performance<br>Your Profession</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANZEN -->
+<section id="finanzen">
+  <div class="container">
+    <div style="display:flex;gap:36px;align-items:center;margin-bottom:48px;flex-wrap:wrap;">
+      <div style="width:110px;height:138px;border-radius:12px;overflow:hidden;flex-shrink:0;border:2px solid var(--border);">
+        <img src="assets/foto-business-clean.jpeg" alt="Linus Holthey Berater" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;">
+      </div>
+      <div>
+        <p class="sec-label">Finanzen & Immobilien</p>
+        <h2 class="sec-title" style="margin-bottom:10px;">Mehr Geld in deiner Tasche.</h2>
+        <p style="color:var(--muted);font-size:0.97rem;line-height:1.7;max-width:480px;">Bessere Tarife, klügere Investments, staatliche Fördergelder – ich zeige dir, was für dich möglich ist.</p>
+      </div>
+    </div>
+
+    <div class="finance-numbers">
+      <div class="fn-box">
+        <div class="q">707 Banken auf einen Schlag – ohne SCHUFA-Eintrag. Weißt du, dass das geht?</div>
+        <div class="n">€ 60.000</div>
+        <div class="l">Zinsen gespart · Kundenbeispiel Immobilienfinanzierung</div>
+      </div>
+      <div class="fn-box">
+        <div class="q">10 € weniger im Monat klingt wenig. Über 50 Jahre wird daraus:</div>
+        <div class="n">€ 6.000</div>
+        <div class="l">Gespart – allein beim Stromtarif</div>
+      </div>
+      <div class="fn-box">
+        <div class="q">Mehr Leistung. Günstigere Prämie. Kein Kompromiss.</div>
+        <div class="n">10 €/J</div>
+        <div class="l">Mehr in der Tasche + besserer Schutz · Haftpflicht Beispiel</div>
+      </div>
+    </div>
+
+    <div class="finance-grid">
+      <div class="finance-card"><div class="ico">📱</div><h4>Tarife & Verträge</h4><p>WLAN, Handy, Strom – ich vergleiche und finde bessere Tarife. Sofort mehr Geld im Monat.</p></div>
+      <div class="finance-card"><div class="ico">🏠</div><h4>Immobilien</h4><p>Kauf, Verkauf, Investment – ich habe selbst mit 20 meine zweite Immobilie als Investment gekauft. Ich kenne den Weg.</p></div>
+      <div class="finance-card"><div class="ico">📈</div><h4>Investments & Altersvorsorge</h4><p>ETFs, Altersvorsorge, Vermögensaufbau – Geld für sich arbeiten lassen statt auf dem Konto schmelzen.</p></div>
+      <div class="finance-card"><div class="ico">🛡️</div><h4>Versicherungen</h4><p>Zu viel, zu wenig oder falsch versichert? Ich finde das richtige Gleichgewicht.</p></div>
+      <div class="finance-card"><div class="ico">🏢</div><h4>Forschungszulage</h4><p>Viele Unternehmen lassen staatliche Fördermittel liegen. In 15 Min klären wir ob dein Unternehmen förderfähig ist.</p></div>
+      <div class="finance-card"><div class="ico">🎓</div><h4>Erstberatung</h4><p>Noch kein konkretes Thema? Komm einfach. Wir schauen gemeinsam wo der größte Mehrwert liegt.</p></div>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="https://cal.com/rhyno/erstgesprach" target="_blank" class="btn btn-navy">Kostenloses Erstgespräch buchen →</a>
+    </div>
+
+    <details class="reviews-dropdown">
+      <summary>
+        Kundenstimmen &nbsp;★★★★★
+        <span class="reviews-count">Ein paar Worte von Kunden &rarr;</span>
+      </summary>
+      <div class="reviews-inner">
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>„Als junger Erwachsener wird man schnell ins Leben geworfen – Linus hat mir Wege und Möglichkeiten aufgezeigt, von denen mir niemand erzählt hatte. Ich kann es jedem ans Herz legen, sich das wenigstens mal anzuhören."</p>
+          <div class="author">F. B.</div>
+          <div class="context">Finanzberatung</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>„Ich wurde von Linus zum Thema Altersvorsorge, Versicherungen und Finanzen beraten. Es wurde sich sehr viel Zeit genommen, um auf meine Bedürfnisse, Ziele und Wünsche einzugehen. Alle Fragen wurden verständlich beantwortet."</p>
+          <div class="author">C.</div>
+          <div class="context">Finanzberatung · Altersvorsorge</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>„Sehr sympathisches und kompetentes Team. Besonders die Beratung mit Linus würde ich weiterempfehlen."</p>
+          <div class="author">J. T.</div>
+          <div class="context">Finanzberatung</div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- CONTENT & SOCIAL -->
+<section id="content">
+  <div class="container">
+    <p class="sec-label" style="color:var(--gold);">Content & Social Media</p>
+    <h2 class="sec-title light">Nimm mich mit auf die Reise.</h2>
+    <p class="sec-intro light">Padel-Turniere & Events · Von 142 kg auf 99 · Torwart ⚽ · Gaming live – ungeschnitten, unzensiert, echt.</p>
+
+    <div class="social-grid">
+      <a href="https://www.instagram.com/linusrhyno" target="_blank" class="social-card">
+        <div class="platform">📸</div>
+        <h4>Instagram</h4>
+        <p>Padel-Turniere, Courtmomente, Finance-Tipps und echte Einblicke – direkt vom Platz bis ins Leben.</p>
+        <div class="goal">@linusrhyno · Ziel: 10.000 Follower</div>
+      </a>
+      <a href="https://www.tiktok.com/@lius.rhyno" target="_blank" class="social-card">
+        <div class="platform">🎵</div>
+        <h4>TikTok</h4>
+        <p>Schnelle Padel-Moves, Event-Highlights, Finance-Hacks und Content mit Augenzwinkern.</p>
+        <div class="goal">@lius.rhyno · Ziel: 10.000 Follower</div>
+      </a>
+      <a href="#" class="social-card">
+        <div class="platform">🎮</div>
+        <h4>Twitch</h4>
+        <p>League of Legends & TFT live. Und wenn ich auf Padel-Turnier bin? 🏸 Stream läuft trotzdem.</p>
+        <div class="goal">@linusrhyno · Coming soon</div>
+      </a>
+      <a href="#" class="social-card">
+        <div class="platform">🎬</div>
+        <h4>YouTube</h4>
+        <p>Turnier-Vlogs 🏆, Reisen, Abnehm-Journey ⚖️, Behind the Scenes. Die Reise zum Nationalteam – dokumentiert.</p>
+        <div class="goal">Coming soon</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ZIELE -->
+<section id="ziele">
+  <div class="container">
+    <p class="sec-label">2026</p>
+    <h2 class="sec-title">Meine Ziele. Öffentlich.</h2>
+    <p class="sec-intro">Verbindlich, messbar, verfolgbar. Das ist was ich 2026 erreiche.</p>
+
+    <div class="live-tracker">
+      <div class="tracker-top">
+        <span class="tracker-badge">&#128225; Live</span>
+        <h3>Wo ich gerade stehe</h3>
+      </div>
+      <div class="tracker-cells">
+
+        <!-- Countdown -->
+        <div>
+          <div class="t-num" id="daysLeft">—</div>
+          <div class="t-lbl">Tage bis 31.12.2026</div>
+        </div>
+
+        <!-- Padel Ranking -->
+        <div>
+          <div class="t-num">#53</div>
+          <div class="t-lbl">Padel Ranking Deutschland</div>
+          <div class="t-track">
+            <!-- fill: (98-53)/(98-30) = 66.2% -->
+            <div class="t-fill" style="width:66.2%"></div>
+            <!-- goal marker #50: (98-50)/(98-30) = 70.6% -->
+            <div class="t-marker goal-marker" style="left:70.6%" title="Ziel: Top 50"></div>
+            <!-- bonus marker #30: 100% -->
+            <div class="t-marker bonus-marker" style="left:100%" title="Bonus: Top 30"></div>
+          </div>
+          <div class="t-labels">
+            <span>Start #98</span>
+            <span class="lbl-goal">Ziel #50</span>
+            <span class="lbl-bonus">Bonus #30</span>
+          </div>
+        </div>
+
+        <!-- Gewicht -->
+        <div>
+          <div class="t-num">142 kg</div>
+          <div class="t-lbl">Gewicht &rarr; Ziel unter 100 kg</div>
+          <div class="t-track">
+            <!-- fill: (142.7-142)/(142.7-99) = 1.6% -->
+            <div class="t-fill" style="width:1.6%"></div>
+          </div>
+          <div class="t-labels">
+            <span>Start 142,7 kg</span>
+            <span class="lbl-goal">Ziel 99 kg</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ziele-grid">
+      <div class="ziel-card">
+        <div class="emoji">🎾</div>
+        <h4>Top 10 Deutschland</h4>
+        <p>Aktueller Highest Ranking: #53. Ziel Ende 2026: Top 10. Langfristig: Nationalmannschaft 2028.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+      </div>
+      <div class="ziel-card">
+        <div class="emoji">⚖️</div>
+        <h4>Unter 100 kg</h4>
+        <p>Von 142,7 kg auf unter 100 kg. Eine persönliche Transformation, die ich öffentlich teile.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+      </div>
+      <div class="ziel-card">
+        <div class="emoji">📱</div>
+        <h4>10.000 Follower</h4>
+        <p>Instagram & TikTok. Echte Community, echter Content – keine Fake-Zahlen.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+      </div>
+      <div class="ziel-card">
+        <div class="emoji">💼</div>
+        <h4>Mehrwert für Menschen</h4>
+        <p>Ob ein TÜV-Stempel, eine Information oder ein konkreter Fahrplan – jeder geht mit etwas raus. Das Schlimmste wäre, nur eine gute Zeit gehabt zu haben.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUCHEN -->
+<section id="buchen">
+  <div class="container">
+    <div class="buchen-grid">
+      <div>
+        <p class="sec-label" style="color:var(--gold);">Termin buchen</p>
+        <h2 class="sec-title light">Lass uns loslegen.</h2>
+        <p class="sec-intro light">Wähle was du brauchst – der Kalender öffnet sich direkt. Alles kostenlos & unverbindlich beim ersten Gespräch.</p>
+        <div class="buchen-cards">
+          <a href="https://cal.com/rhyno/padel-einzeltraining" target="_blank" class="buchen-card">
+            <div class="bc-icon">🎾</div>
+            <div><h4>Padel Einzeltraining</h4><p>40€/Std. · zzgl. Platzmiete · 60–120 Min</p></div>
+            <div class="bc-arrow">→</div>
+          </a>
+          <a href="https://cal.com/rhyno/padel-gruppentraining" target="_blank" class="buchen-card">
+            <div class="bc-icon">👥</div>
+            <div><h4>Padel Gruppentraining</h4><p>50€/Std. geteilt · zzgl. Platzmiete · Max. 4 Personen</p></div>
+            <div class="bc-arrow">→</div>
+          </a>
+          <a href="https://cal.com/rhyno/erstgesprach" target="_blank" class="buchen-card">
+            <div class="bc-icon">💼</div>
+            <div><h4>Erstgespräch Finanzen</h4><p>Kostenlos & unverbindlich · 15–60 Min · Online oder persönlich</p></div>
+            <div class="bc-arrow">→</div>
+          </a>
+          <a href="https://cal.com/rhyno" target="_blank" class="buchen-card">
+            <div class="bc-icon">🧠</div>
+            <div><h4>Mental Coaching anfragen</h4><p>Turnierbegleitung · Tennis & Padel · Anfrage per Kalender</p></div>
+            <div class="bc-arrow">→</div>
+          </a>
+          <a href="https://wa.me/4915116444655" target="_blank" class="buchen-card">
+            <div class="bc-icon">💬</div>
+            <div><h4>Direkt per WhatsApp</h4><p>Schnellste Option – ich antworte innerhalb von 24h</p></div>
+            <div class="bc-arrow">→</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>Schreib mir</h3>
+        <p class="sub">Für alles was nicht in den Kalender passt.</p>
+        <form action="https://formspree.io/f/mkolryby" method="POST" id="contactForm">
+          <div class="form-row">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Dein Name" required />
+          </div>
+          <div class="form-row">
+            <label>E-Mail</label>
+            <input type="email" name="email" placeholder="deine@email.de" required />
+          </div>
+          <div class="form-row">
+            <label>Thema</label>
+            <select name="thema">
+              <option value="">Worum geht es?</option>
+              <option value="padel-training">Padel Training</option>
+              <option value="tennis-training">Tennis Training</option>
+              <option value="mental-coaching">Mental Coaching / Turnierbegleitung</option>
+              <option value="finanzen">Finanzberatung</option>
+              <option value="sponsoring">Sponsoring</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Nachricht</label>
+            <textarea name="message" placeholder="Was kann ich für dich tun?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;text-align:center;">Nachricht senden →</button>
+          <div class="form-success" id="formSuccess">✓ Nachricht gesendet! Ich melde mich innerhalb von 24h.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="#hero"><img src="assets/rhyno-logo.jpeg" alt="Rhyno" /></a>
+      <div class="footer-links">
+        <a href="#about">Über mich</a>
+        <a href="#sport">Sport</a>
+        <a href="#mental">Mental</a>
+        <a href="#finanzen">Beratung</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+      <p class="footer-copy">© 2026 Linus Holthey · linus.holthey@outlook.de</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/4915116444655" target="_blank" class="whatsapp-fab" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // Mobile menu
+  function closeMobile() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+
+  // Tabs
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Countdown to 31.12.2026
+  (function() {
+    const end = new Date('2026-12-31T23:59:59');
+    const diff = Math.ceil((end - new Date()) / 86400000);
+    const el = document.getElementById('daysLeft');
+    if (el) el.textContent = diff > 0 ? diff : 0;
+  })();
+
+  // Read more toggles
+  function toggleMore(id) {
+    const el = document.getElementById(id);
+    const btn = event.target;
+    if (el.classList.contains('open')) {
+      el.classList.remove('open');
+      btn.textContent = btn.dataset.original || 'Mehr lesen →';
+    } else {
+      if (!btn.dataset.original) btn.dataset.original = btn.textContent;
+      el.classList.add('open');
+      btn.textContent = 'Weniger anzeigen ↑';
+    }
+  }
+
+  // Mental form toggle (reuse toggleMore pattern but for form)
+  document.getElementById('mental-form') && (() => {
+    const mentalForm = document.getElementById('mentalForm');
+    if (!mentalForm) return;
+    mentalForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('mentalSubmitBtn');
+      btn.textContent = 'Wird gesendet...';
+      btn.disabled = true;
+      const data = new FormData(mentalForm);
+      try {
+        const res = await fetch('https://formspree.io/f/mkolryby', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          mentalForm.innerHTML = '<p style="color:var(--gold);text-align:center;padding:24px;font-size:1rem;">✓ Anfrage gesendet! Ich melde mich bald bei dir.</p>';
+        } else {
+          btn.textContent = 'Fehler – bitte erneut versuchen';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Fehler – bitte erneut versuchen';
+        btn.disabled = false;
+      }
+    });
+  })();
+
+  // Formspree AJAX
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Wird gesendet...';
+    btn.disabled = true;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        form.reset();
+        document.getElementById('formSuccess').style.display = 'block';
+        btn.textContent = '✓ Gesendet';
+      } else {
+        btn.textContent = 'Fehler – bitte erneut versuchen';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Fehler – bitte erneut versuchen';
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
