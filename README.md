@@ -18,13 +18,13 @@ Persönliche Website von Linus "Rhyno" Holthey (Padel-Trainer, Mental Coach, Fin
 ## Integrationen
 
 - **Formspree**: `https://formspree.io/f/mkolryby` (Mental-Anfrage + Kontaktformular) — **aktiv** (Account "Rhyno Website Kontakt" eingerichtet, Testanfrage am 2026-07-14 erfolgreich zugestellt).
-- **Cal.com**: `https://cal.com/rhyno` + `/padel-einzeltraining`, `/padel-gruppentraining`, `/erstgesprach` — **noch nicht eingerichtet**. Account mit Username exakt `rhyno` anlegen, die 3 Event-Typen erstellen.
+- **Cal.com**: `https://cal.com/rhyno` + `/padel-einzeltraining`, `/padel-gruppentraining`, `/erstgesprach` — **aktiv** (alle 3 Event-Typen eingerichtet und am 2026-07-14 verifiziert).
 - **WhatsApp FAB**: `015116444655` — funktioniert bereits ohne weitere Einrichtung.
 
 ## Offene Aufgaben
 
 - [x] Formspree-Account aktivieren
-- [ ] Cal.com-Account + 3 Event-Typen einrichten
+- [x] Cal.com-Account + 3 Event-Typen einrichten
 - [ ] Domain kaufen (z.B. linusrhyno.de oder rhyno.de, ~10–15€/Jahr bei Strato/IONOS)
 - [ ] Deploy auf Netlify (netlify.com/drop → Ordner reinziehen)
 - [ ] Twitch-Link ergänzen, sobald Account existiert (@linusrhyno)
